@@ -15,7 +15,6 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    isAdded: false,
   };
 
   componentDidMount() {
@@ -32,19 +31,17 @@ export class App extends Component {
     }
   }
 
-  addContact = ({ name, number, isAdded }) => {
+  addContact = ({ name, number }) => {
     const normalizedName = name.toLowerCase();
-    this.state.contacts.forEach(el => {
-      if (el.name.toLowerCase() === normalizedName) {
-        alert(`${name}: is already in contacts`);
-        Notiflix.Notify.failure(`${name}: is already in contacts`);
-        isAdded = true;
-      }
-    });
-
-    if (isAdded) {
+    const findName = this.state.contacts.find(
+      contact => contact.name.toLowerCase() === normalizedName
+    );
+    if (findName) {
+      alert(`${name} is already in contacts`);
+      Notiflix.Notify.failure(`${name}: is already in contacts`);
       return;
     }
+
     const contact = {
       id: nanoid(),
       name: name,
